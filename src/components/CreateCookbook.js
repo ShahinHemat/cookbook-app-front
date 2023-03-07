@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-// Look at "Set Remembrall" in Github 
 
 export function CreateCookbook() {
 
@@ -21,7 +20,7 @@ export function CreateCookbook() {
         setPicture(e.target.files[0]);
     }
 
-    const handleSave = async(e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         try {
             const body = { cookbook_name, description, picture };
@@ -31,7 +30,7 @@ export function CreateCookbook() {
                 body: JSON.stringify(body)
             });
 
-            console.log(response);
+            window.location = '/profile';
 
         } catch (err) {
             console.error(err.message);
