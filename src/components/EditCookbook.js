@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export function EditCookbook( {cookbook }) {
+export function EditCookbook({ cookbook }) {
 
     // Handling States
     const [cookbook_name, setCookbook_name] = useState(cookbook.cookbook_name);
@@ -12,6 +12,32 @@ export function EditCookbook( {cookbook }) {
     const handleEditDescription = (e) => {
         setDescription(e.target.value);
     };
+
+
+    // Update cookbook function
+    const updateCookbook = async e => {
+        e.preventDefault();
+        try {
+            const body = { cookbook_name, description };
+            const response = await fetch(`http://localhost:3333/cookbooks/${cookbook.cookbook_id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            console.log(response);
+            window.location = '/profile';
+
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
+    // If you cancel editing, the next time you open the edit-modal, reset values
+    const cancelEdit = () => {
+        setCookbook_name(cookbook.cookbook_name);
+        setDescription(cookbook.description);
+    }
 
     /* 
     
@@ -25,23 +51,32 @@ export function EditCookbook( {cookbook }) {
     return (
         <>
 
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target={`#id${cookbook.cookbook_id}`}>
-                Edit
-            </button>
+            <button 
+            type="button" 
+            className="btn btn-warning" 
+            data-toggle="modal" 
+            data-target={`#id${cookbook.cookbook_id}`} 
+            onClick={cancelEdit}
+            >Edit</button>
 
-            <div class="modal" id={`id${cookbook.cookbook_id}`}>
-                <div class="modal-dialog">
-                    <div class="modal-content">
+            <div className="modal" id={`id${cookbook.cookbook_id}`}>
+                <div className="modal-dialog">
+                    <div className="modal-content">
 
-                        <div class="modal-header">
+                        <div className="modal-header">
 
-                            <h4 class="modal-title">Edit Cookbook</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 className="modal-title">Edit Cookbook</h4>
+                            <button 
+                            type="button" 
+                            className="close" 
+                            data-dismiss="modal"
+                            onClick={cancelEdit}
+                            >&times;</button>
 
                         </div>
 
 
-                        <div class="modal-body">
+                        <div className="modal-body">
 
                             <div className="cookbook-details-edit" style={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -70,22 +105,32 @@ export function EditCookbook( {cookbook }) {
                                     accept='image/*'
                                 />
 
-
                             </div>
 
                         </div>
 
 
-                        <div class="modal-footer">
+                        <div className="modal-footer">
 
-                            <button type="button" class="btn btn-warning" data-dismiss="modal">Save Changes</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button
+                                type="button"
+                                className="btn btn-warning"
+                                data-dismiss="modal"
+                                onClick={e => updateCookbook(e)}
+                            >Save Changes</button>
+
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                data-dismiss="modal"
+                                onClick={cancelEdit}
+                            >Close</button>
 
                         </div>
-
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
