@@ -66,9 +66,9 @@ export function Profile() {
                     <h4>{cookbook.cookbook_name}</h4>
                     <em>{cookbook.description}</em>
 
-                    <button>
-                        <EditCookbook />
-                    </button>
+                    <>
+                        <EditCookbook cookbook={cookbook}/>
+                    </>
 
                     <button
                         style={{ backgroundColor: 'red', color: 'black' }}
