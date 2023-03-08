@@ -20,7 +20,7 @@ export function CreateCookbook() {
         setPicture(e.target.files[0]);
     }
 
-    const handleSave = async (e) => {
+    const handleSaveCookbook = async (e) => {
         e.preventDefault();
         try {
             const body = { cookbook_name, description, picture };
@@ -81,7 +81,7 @@ export function CreateCookbook() {
             </div>
 
             <button
-                onClick={handleSave}
+                onClick={handleSaveCookbook}
             >
                 Save Cookbook
             </button>

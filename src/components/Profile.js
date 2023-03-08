@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { EditCookbook } from "./EditCookbook";
 
 export function Profile() {
 
     const [allcookbooks, setAllcookbooks] = useState([]);
+
+
 
     // Delete cookbook function
     const deleteCookbook = async (id) => {
@@ -14,16 +17,19 @@ export function Profile() {
                 const deleteCookbook = await fetch(`http://localhost:3333/cookbooks/${id}`, {
                     method: "DELETE"
                 });
-            };
-
-
-            setAllcookbooks(allcookbooks.filter(cookbook => cookbook.cookbook_id !== id));
+                
+                setAllcookbooks(allcookbooks.filter(cookbook => cookbook.cookbook_id !== id));
+            
+            } else {
+                return;
+            }; 
 
         } catch (err) {
             console.error(err.message);
         }
     };
 
+    // Fetch cookbooks from database, and list in UI 
     const getAllCookbooks = async () => {
         try {
 
@@ -40,6 +46,7 @@ export function Profile() {
     useEffect(() => {
         getAllCookbooks();
     }, []);
+
 
     return (
         <>
@@ -58,10 +65,13 @@ export function Profile() {
 
                     <h4>{cookbook.cookbook_name}</h4>
                     <em>{cookbook.description}</em>
-                    <div>Edit</div>
+
+                    <button>
+                        <EditCookbook />
+                    </button>
 
                     <button
-                        style={{ backgroundColor: 'red', color: 'white' }}
+                        style={{ backgroundColor: 'red', color: 'black' }}
                         onClick={() => deleteCookbook(cookbook.cookbook_id)}
                     >
                         Delete
