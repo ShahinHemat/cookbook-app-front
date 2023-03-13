@@ -49,7 +49,7 @@ export function Profile() {
 
 
     return (
-        <>
+        <div>
 
             <div>
                 I am the Profile component. You will see me when you are logged in.
@@ -84,6 +84,6 @@ export function Profile() {
                 <Link to="/createcookbook">New Cookbook</Link>
             </div>
 
-        </>
+        </div>
     )
 }
